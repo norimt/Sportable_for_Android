@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             pageAdapter.add(FacilitiesFragment.newInstance(), "施設検索")
             pageAdapter.add(CommunitiesFragment.newInstance(), "コミュニティ")
             pageAdapter.add(NewsFragment.newInstance(), "ニュース")
+
         view_pager.adapter = pageAdapter
         tabs.setupWithViewPager(view_pager)
     }
