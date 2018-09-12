@@ -10,7 +10,12 @@ import okhttp3.Request
 import android.os.AsyncTask
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import com.example.tatsuro.sportable.R.id.rssContributor
+import com.example.tatsuro.sportable.R.id.rssTitle
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.KotlinJsonAdapterFactory
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
 
 
 class NewsFragment : Fragment() {
@@ -52,27 +57,37 @@ class NewsFragment : Fragment() {
 
         fun getHtml(): String {
             val client = OkHttpClient()
-            val req = Request.Builder().url("https://api.myjson.com/bins/wrx6o").get().build()
+            val req = Request.Builder().url("https://api.myjson.com/bins/jqbbk").get().build()
             val resp = client.newCall(req).execute()
 
             return resp.body()!!.string()
         }
     }
-     fun createDataList(result:String): List<RssListData> {
+     fun createDataList(result:String): List<RssListData>? {
          val jsonText = result
-         val adapter = Moshi.Builder().build().adapter(Rss::class.java)
-         val rssList = adapter.fromJson(jsonText)
-println("$rssList+44444444444444444444444444444444444444444444444444444444444444444444444444444444")
+         val rssMapType = Types.newParameterizedType(
+                 Map::class.java,
+                 String::class.java,
+                 Rss::class.java
+         )
+         val rssMapAdapter: JsonAdapter<Map<String, Rss>> = Moshi.Builder()
+                 .build()
+                 .adapter(rssMapType)
 
-        val dataList = mutableListOf<RssListData>()
-//         rssList.forEach {
-            val data: RssListData = RssListData().also {
-                it.rssTitle = rssList!!.rssTitle
-                it.rssContributor = rssList!!.rssContributor
-                it.rssUrl = rssList!!.rssUrl
-            }
-            dataList.add(data)
-        //}
-        return dataList
-    }
+         val rssMap: Map<String, Rss>? = rssMapAdapter.fromJson(jsonText)
+
+// あとは適当にループして目的のデータに変換してください
+         val dataList = rssMap?.map { (key, rss) ->
+             println("$rssMap+66666666666666666666666")
+             RssListData().also {
+                 it.rssTitle = rss.rssTitle
+                 it.rssContributor = rss.rssContributor
+                 it.rssUrl = rss.rssUrl
+             }
+         }
+         println("$dataList+88888888888888888888888888888888888")
+         return dataList
+     }
 }
+
+
