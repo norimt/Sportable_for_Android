@@ -1,5 +1,6 @@
 package com.example.tatsuro.sportable
 
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.ViewGroup
@@ -8,14 +9,13 @@ import android.view.View
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import android.os.AsyncTask
+import android.support.customtabs.CustomTabsIntent
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
-import com.example.tatsuro.sportable.R.id.rssContributor
-import com.example.tatsuro.sportable.R.id.rssTitle
 import com.squareup.moshi.JsonAdapter
-import com.squareup.moshi.KotlinJsonAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
+import com.squareup.picasso.Picasso
 
 
 class NewsFragment : Fragment() {
@@ -46,7 +46,7 @@ class NewsFragment : Fragment() {
             val recyclerView = view?.findViewById(R.id.RssListView) as RecyclerView
             val adapter = RssListViewAdapter(createDataList(result), object : RssListViewAdapter.ListListener {
                 override fun onClickRow(tappedView: View, RssListData: RssListData) {
-                    this.onClickRow(tappedView, RssListData)
+                    this@NewsFragment.onClickRow(RssListData)
                 }
             })
 
@@ -57,7 +57,7 @@ class NewsFragment : Fragment() {
 
         fun getHtml(): String {
             val client = OkHttpClient()
-            val req = Request.Builder().url("https://api.myjson.com/bins/jqbbk").get().build()
+            val req = Request.Builder().url("https://api.myjson.com/bins/koisw").get().build()
             val resp = client.newCall(req).execute()
 
             return resp.body()!!.string()
@@ -83,11 +83,17 @@ class NewsFragment : Fragment() {
                  it.rssTitle = rss.rssTitle
                  it.rssContributor = rss.rssContributor
                  it.rssUrl = rss.rssUrl
+                 //Picasso.with(imageView.context).load(rss.rssUrl).into(rssImage)
+                 //Picasso.with(context).load(rss.rssUrl).fit().centerCrop().into(rssImage)
+
              }
          }
          println("$dataList+88888888888888888888888888888888888")
          return dataList
      }
+    fun onClickRow(rowModel: RssListData) {
+        val intent = CustomTabsIntent.Builder().build()
+                    intent.launchUrl(getActivity(), Uri.parse(rowModel.rssUrl))
+    }
 }
-
 
