@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.content.Intent
 import android.os.Handler
 
-
-
 class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,6 +14,11 @@ class SplashActivity : AppCompatActivity() {
         Handler().postDelayed({
             val intent = Intent(this@SplashActivity, MainActivity::class.java)
             startActivity(intent)
-        }, 2000)
+        }, 1000)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        finish()
     }
 }
