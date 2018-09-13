@@ -57,7 +57,7 @@ class NewsFragment : Fragment() {
 
         fun getHtml(): String {
             val client = OkHttpClient()
-            val req = Request.Builder().url("https://api.myjson.com/bins/koisw").get().build()
+            val req = Request.Builder().url("https://api.myjson.com/bins/13fw2o").get().build()
             val resp = client.newCall(req).execute()
 
             return resp.body()!!.string()

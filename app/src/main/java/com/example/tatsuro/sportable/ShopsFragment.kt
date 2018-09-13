@@ -33,18 +33,13 @@ class ShopsFragment : Fragment() {
         val recyclerView = view.findViewById(R.id.contentsListView) as RecyclerView
         val adapter = ContentsListViewAdapter(createDataList(), object : ContentsListViewAdapter.ListListener {
             override fun onClickRow(tappedView: View, ContentsListData: ContentsListData) {
-                this.onClickRow(tappedView, ContentsListData)
+                this@ShopsFragment.onClickRow(tappedView, ContentsListData)
             }
         })
 
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = adapter
-
-        fun onClickRow(tappedView: View, listData: ContentsListData) {
-            Snackbar.make(tappedView, "Replace with your own action tapped ${listData.contentName}", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }
 
         return view
     }
@@ -61,5 +56,9 @@ class ShopsFragment : Fragment() {
             dataList.add(data)
         }
         return dataList
+    }
+    fun onClickRow(tappedView: View, rowModel: ContentsListData) {
+        Snackbar.make(tappedView, "Replace with your own action tapped ${rowModel.contentName}", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show()
     }
 }

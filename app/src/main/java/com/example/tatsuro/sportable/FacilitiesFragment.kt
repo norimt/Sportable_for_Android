@@ -33,7 +33,7 @@ class FacilitiesFragment : Fragment() {
         val recyclerView = view.findViewById(R.id.contentsListView) as RecyclerView
         val adapter = ContentsListViewAdapter(createDataList(), object : ContentsListViewAdapter.ListListener {
             override fun onClickRow(tappedView: View, ContentsListData: ContentsListData) {
-                this.onClickRow(tappedView, ContentsListData)
+                this@FacilitiesFragment.onClickRow(tappedView, ContentsListData)
             }
         })
 
