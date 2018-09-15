@@ -21,11 +21,11 @@ import com.squareup.picasso.Picasso
 class NewsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val args = arguments
+//        val args = arguments
+        MyAsyncTask().execute()
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.news_fragment, container, false)
-        MyAsyncTask().execute()
         return view
     }
     companion object {
@@ -60,6 +60,7 @@ class NewsFragment : Fragment() {
             val req = Request.Builder().url("https://api.myjson.com/bins/13fw2o").get().build()
             val resp = client.newCall(req).execute()
 
+
             return resp.body()!!.string()
         }
     }
@@ -76,9 +77,7 @@ class NewsFragment : Fragment() {
 
          val rssMap: Map<String, Rss>? = rssMapAdapter.fromJson(jsonText)
 
-// あとは適当にループして目的のデータに変換してください
          val dataList = rssMap?.map { (key, rss) ->
-             println("$rssMap+66666666666666666666666")
              RssListData().also {
                  it.rssTitle = rss.rssTitle
                  it.rssContributor = rss.rssContributor
@@ -88,7 +87,6 @@ class NewsFragment : Fragment() {
 
              }
          }
-         println("$dataList+88888888888888888888888888888888888")
          return dataList
      }
     fun onClickRow(rowModel: RssListData) {
